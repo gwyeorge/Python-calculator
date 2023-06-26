@@ -1,8 +1,12 @@
 from tkinter import *
 
-#finish fuctions for calculations
+#finish the %(*make the precent work lol) and root.
+#maybe find a way to make + and x work because * and / are cringe
+#import math for the more complex stuff
+#finish fuctions for calculations, sin and tan
 #make cos,sin and tan (eventually work)
 #add ln, log, e and tan, commands for buttons ready need to fix x,y and draw the buttons
+#maybe find a better method for the equation than eval
 
 """self.log_image = PhotoImage(file="images/log.png")
         self.b13 = Button(self.window, text='log', image=self.log_image, bg='gold', fg='black', font='Norasi',
@@ -24,10 +28,12 @@ from tkinter import *
                           command=lambda: self.fun.entry_widget.insert(END, 'tan('))
         self.b13.place(x=3, y=130)               """
 
+
 class functions:
     def __init__(self, entry_widget):
         self.entry_widget = entry_widget
 
+    #place holder function
     def click(self):
         pass
 
@@ -38,21 +44,29 @@ class functions:
         self.entry_widget.insert(END, character)
 
     def backspace(self):
-        pass
+        equation = self.entry_widget.get()
+        if equation:
+            self.entry_widget.delete(len(equation) - 1)
 
     def clear(self):
-        pass
+        self.entry_widget.delete(0, END)
 
-    def Equation(self):
-        pass
-
+    def equation(self):
+        self.final_equation = self.entry_widget.get()
+        try:
+            self.final_equation = str(eval(self.final_equation))
+            self.entry_widget.delete(0, END)
+            self.entry_widget.insert(END, self.final_equation)
+            #print("it worked")
+        except Exception as e:
+            self.entry_widget.delete(0, END)
+            self.entry_widget.insert(END, "Error")
 class calculator:
     def __init__(self):
         self.window = Tk()
         self.window.title('title')
         self.window.geometry('277x370+320+120')
         self.window.resizable(False, False)
-        self.operator = ""
         self.text_Input = StringVar()
         self.txtDisplay = None
         self.txtDisplay_image = None
@@ -68,7 +82,7 @@ class calculator:
             self.window,
             justify='right',
             font=('arial black', 15, 'bold'),
-            width=15,
+            width=17,
             border=0,
             highlightthickness=0,
             bg="#404040",
@@ -78,6 +92,8 @@ class calculator:
         self.txtDisplay.config(bg="#404040", readonlybackground="#404040")
         self.txtDisplay.focus()
 
+        self.fun.entry_widget = self.txtDisplay
+
     def general_buttons(self):
         self.backspace_image = PhotoImage(file="images/backspace.png")
         self.b1 = Button(self.window, text='bsce', image=self.backspace_image, bg='gold', fg='black', font='Norasi',
@@ -85,13 +101,13 @@ class calculator:
         self.b1.place(x=216, y=80)
 
         self.division_image = PhotoImage(file="images/division.png")
-        self.b2 = Button(self.window, text='div', image=self.division_image, bg='gold', fg='black', font='Norasi',
-                         command=lambda: self.fun.insert_character('÷'))
+        self.b2 = Button(self.window, text='/', image=self.division_image, bg='gold', fg='black', font='Norasi',
+                         command=lambda: self.fun.insert_character('/'))
         self.b2.place(x=216, y=130)
 
         self.multiplication_image = PhotoImage(file="images/multiplication.png")
-        self.b3 = Button(self.window, text='x', image=self.multiplication_image, bg='gold', fg='black', font='Norasi',
-                         command=lambda: self.fun.insert_character('x'))
+        self.b3 = Button(self.window, text='*', image=self.multiplication_image, bg='gold', fg='black', font='Norasi',
+                         command=lambda: self.fun.insert_character('*'))
         self.b3.place(x=216, y=180)
 
         self.subtraction_image = PhotoImage(file="images/subtraction.png")
@@ -106,7 +122,7 @@ class calculator:
 
         self.equal_image = PhotoImage(file="images/equals.png")
         self.b6 = Button(self.window, text='=', image=self.equal_image, bg='gold', fg='black', font='Norasi',
-                         command=lambda: self.fun.entry_widget.insert(END, '√'))
+                         command=lambda: self.fun.equation())
         self.b6.place(x=145, y=330)
 
         self.clear_image = PhotoImage(file="images/clear.png")
@@ -125,8 +141,8 @@ class calculator:
         self.b9.place(x=3, y=330)
 
         self.square_image = PhotoImage(file="images/square2.png")
-        self.b10 = Button(self.window, text='^', image=self.square_image, bg='gold', fg='black', font='Norasi',
-                          command=lambda: self.fun.entry_widget.insert(END, '^'))
+        self.b10 = Button(self.window, text='**', image=self.square_image, bg='gold', fg='black', font='Norasi',
+                          command=lambda: self.fun.entry_widget.insert(END, '**'))
         self.b10.place(x=74, y=130)
 
         self.percent_image = PhotoImage(file="images/percent.png")
