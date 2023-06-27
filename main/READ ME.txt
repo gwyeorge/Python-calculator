@@ -1,0 +1,2 @@
+A python calculator using classes, Tkinter and math. Their are trigonometry and logarithmic equations. The tkinter buttons are costum using gimp and the icon i found online. Sry for your eyes i am not a desniner.
+Feel free to modify the code as you will.
